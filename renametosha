@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+// usage: php renamefiles.php /path/to/dir
+$photosDir = $_SERVER['argv']['1'];
+$files = scandir($photosDir);
+foreach ($files as $file) {
+    if ($file == '.' || $file == '..') {
+        continue;
+    }
+    $oldFile = "$photosDir$file";
+    $extension = strtolower(pathinfo($oldFile, PATHINFO_EXTENSION));
+    $hash = hash_file('sha256', $oldFile);
+    $newFile = "$photosDir$hash.$extension";
+    rename($oldFile, $newFile);
+}
+
