@@ -6,10 +6,3 @@ COPY . .
 
 
 RUN chmod 777 /opt/media-organizer
-
-
-
-
-RUN chmod 755 /opt/media-organizer
-
-
