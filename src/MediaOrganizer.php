@@ -15,6 +15,14 @@ class MediaOrganizer
         @$photosDir = $_SERVER['argv']['1'];
         @$destinationDir = $_SERVER['argv']['2'];
 
+        if(substr($photosDir, -1) != '/') {
+            $photosDir = $photosDir . '/';
+        }
+
+        if(substr($destinationDir, -1) != '/') {
+            $destinationDir = $destinationDir . '/';
+        }
+
         $this->ffprobe = FFMpeg\FFProbe::create();
 
         if (empty($photosDir) || empty($destinationDir)) {
