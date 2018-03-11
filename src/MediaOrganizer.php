@@ -117,7 +117,7 @@ class MediaOrganizer
     {
         $fileExtension = strtolower($fileExtension);
 
-        if ($fileExtension == 'mp4') {
+        if ($fileExtension == 'mp4' || $fileExtension == 'mov') {
             return true;
         }
 
