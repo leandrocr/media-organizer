@@ -7,6 +7,7 @@ use FFMpeg;
 class MediaOrganizer
 {
     private $dryRun = true;
+    private $movieSupport = true;
     private $ffprobe = null;
 
     public function __construct()
@@ -58,7 +59,7 @@ class MediaOrganizer
             return $photoDate[0] . $photoDate[1];
         }
 
-        if ($isMovie) {
+        if ($isMovie && $this->movieSupport) {
             $movieDate = $this->getMovieDate($originalFilePath);
             return $movieDate[0] . $movieDate[1];
         }
