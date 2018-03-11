@@ -128,11 +128,11 @@ class MediaOrganizer
 
     public function getMovieDate(string $filePath)
     {
-        $test = $this->ffprobe
+        $movieMetadata = $this->ffprobe
             ->format($filePath)
             ->get('tags');
 
-        return explode('-', $test['creation_time']);
+        return explode('-', $movieMetadata['creation_time']);
     }
 }
 
