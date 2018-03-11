@@ -2,14 +2,19 @@
 
 namespace LeandroCR\MediaOrganizer;
 
+use FFMpeg;
+
 class MediaOrganizer
 {
     private $dryRun = true;
+    private $ffprobe = null;
 
     public function __construct()
     {
         @$photosDir = $_SERVER['argv']['1'];
         @$destinationDir = $_SERVER['argv']['2'];
+
+        $this->ffprobe = FFMpeg\FFProbe::create();
 
         if (empty($photosDir) || empty($destinationDir)) {
             throw new \Exception("Mandatory arguments not set");
@@ -123,14 +128,11 @@ class MediaOrganizer
 
     public function getMovieDate(string $filePath)
     {
-        return;
-        $exifData = exif_read_data($filePath);
+        $test = $this->ffprobe
+            ->format($filePath)
+            ->get('tags');
 
-        if (!isset($exifData['DateTimeOriginal'])) {
-            return explode('-', date(DATE_ATOM, $exifData['FileDateTime']));
-        }
-
-        return explode(':', $exifData['DateTimeOriginal']);
+        return explode('-', $test['creation_time']);
     }
 }
 
