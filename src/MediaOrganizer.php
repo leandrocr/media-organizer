@@ -1,6 +1,8 @@
 <?php
 
-class PhotoOrganizer
+namespace LeandroCR\MediaOrganizer;
+
+class MediaOrganizer
 {
     private $dryRun = true;
 
@@ -26,6 +28,7 @@ class PhotoOrganizer
 
             $subDir = $this->getSubDir(
                 $this->isPicture($originalFileExtension),
+                $this->isMovie($originalFileExtension),
                 $originalFilePath
             );
 
@@ -41,13 +44,18 @@ class PhotoOrganizer
         }
     }
 
-    private function getSubDir(bool $isPicture, string $originalFilePath)
+    private function getSubDir(bool $isPicture, bool $isMovie, string $originalFilePath)
     {
         $subDir = 'other';
 
         if ($isPicture) {
             $photoDate = $this->getPhotoDate($originalFilePath);
-            $subDir = $photoDate[0] . $photoDate[1];
+            return $photoDate[0] . $photoDate[1];
+        }
+
+        if ($isMovie) {
+            $movieDate = $this->getMovieDate($originalFilePath);
+            return $movieDate[0] . $movieDate[1];
         }
 
         return $subDir;
@@ -91,6 +99,17 @@ class PhotoOrganizer
         return false;
     }
 
+    public function isMovie(string $fileExtension)
+    {
+        $fileExtension = strtolower($fileExtension);
+
+        if ($fileExtension == 'mp4') {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getPhotoDate(string $filePath)
     {
         $exifData = exif_read_data($filePath);
@@ -101,6 +120,17 @@ class PhotoOrganizer
 
         return explode(':', $exifData['DateTimeOriginal']);
     }
+
+    public function getMovieDate(string $filePath)
+    {
+        return;
+        $exifData = exif_read_data($filePath);
+
+        if (!isset($exifData['DateTimeOriginal'])) {
+            return explode('-', date(DATE_ATOM, $exifData['FileDateTime']));
+        }
+
+        return explode(':', $exifData['DateTimeOriginal']);
+    }
 }
 
-new PhotoOrganizer();

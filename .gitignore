@@ -1,4 +1,6 @@
 img/
 .DS_Store
 fotos/
+vendor/
+.idea/
 
