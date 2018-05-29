@@ -6,7 +6,7 @@ use FFMpeg;
 
 class MediaOrganizer
 {
-    private $dryRun = true;
+    private $dryRun = false;
     private $movieSupport = true;
     private $ffprobe = null;
 
@@ -15,11 +15,11 @@ class MediaOrganizer
         @$photosDir = $_SERVER['argv']['1'];
         @$destinationDir = $_SERVER['argv']['2'];
 
-        if(substr($photosDir, -1) != '/') {
+        if (substr($photosDir, -1) != '/') {
             $photosDir = $photosDir . '/';
         }
 
-        if(substr($destinationDir, -1) != '/') {
+        if (substr($destinationDir, -1) != '/') {
             $destinationDir = $destinationDir . '/';
         }
 
@@ -144,4 +144,3 @@ class MediaOrganizer
         return explode('-', $movieMetadata['creation_time']);
     }
 }
-
